@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Quote Master | Professional Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 10px 0;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 850px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .inline-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .inline-inputs div {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--secondary);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background-color: white;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .advanced-settings {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--bg);
+        }
+
+        .toggle-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 100%;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background: var(--border);
+        }
+
+        .hidden-content {
+            display: none;
+            padding-top: 15px;
+        }
+
+        .hidden-content.show {
+            display: block;
+        }
+
+        .results-card {
+            background: var(--primary);
+            color: white;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .price-display {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .breakdown-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.3);
+            font-weight: 700;
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .hint {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>3D Print Quote Master</h1>
+        <p>Professional Calculator | Jerusalem 2026 Rates</p>
+    </header>
+
+    <div class="calculator-grid">
+        <!-- Input Section -->
+        <div class="card">
+            <div class="section-title">🧵 Filament & Print Info</div>
+            
+            <div class="input-group">
+                <label>Filament Type</label>
+                <select id="filamentType">
+                    <option value="109">PLA (109₪/kg)</option>
+                    <option value="120">PETG (120₪/kg)</option>
+                    <option value="0">Custom...</option>
+                </select>
+            </div>
+
+            <div id="customMatDiv" class="input-group" style="display: none;">
+                <label>Custom Price (₪/kg)</label>
+                <input type="number" id="matCost" value="109" step="0.01">
+            </div>
+
+            <div class="input-group">
+                <label>Filament Weight (g)</label>
+                <input type="number" id="gramsUsed" placeholder="0" step="1">
+            </div>
+
+            <div class="input-group">
+                <label>Printing Time</label>
+                <div class="inline-inputs">
+                    <div>
+                        <input type="number" id="printHours" placeholder="Hrs" min="0" step="1">
+                        <div class="hint">Hours</div>
+                    </div>
+                    <div>
+                        <input type="number" id="printMinutes" placeholder="Mins" min="0" max="59" step="1">
+                        <div class="hint">Minutes</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 25px;">👨‍🔧 Labor Time</div>
+            <div class="input-group">
+                <label>Total Work Time (Min)</label>
+                <input type="number" id="laborMinutes" placeholder="e.g. 15" step="1">
+                <div class="hint">Total time for setup, cleaning, etc.</div>
+            </div>
+
+            <!-- Advanced Hidden Settings -->
+            <div class="advanced-settings">
+                <button class="toggle-btn" onclick="toggleAdvanced()">
+                    <span id="toggleIcon">⚙️</span> Show Business & Machine Settings
+                </button>
+                
+                <div id="advancedContent" class="hidden-content">
+                    <div class="section-title" style="font-size: 0.8rem;">Electricity & Rates</div>
+                    <div class="input-group">
+                        <label>Energy Cost (₪/kWh)</label>
+                        <input type="number" id="kwhRate" value="0.627" step="0.001">
+                    </div>
+                    <div class="input-group">
+                        <label>Power Consumption (Watts)</label>
+                        <input type="number" id="printerWatts" value="120" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Labor Rate (₪/hr)</label>
+                        <input type="number" id="laborRate" value="50" step="1">
+                    </div>
+                    <div class="input-group">
+                        <label>Profit Markup (%)</label>
+                        <input type="number" id="markup" value="35" step="1">
+                    </div>
+
+                    <div class="section-title" style="font-size: 0.8rem; margin-top: 15px;">Machine Upkeep (Prusa Formula)</div>
+                    <div class="input-group">
+                        <label>Printer Cost (₪)</label>
+                        <input type="number" id="printerCost" value="900">
+                    </div>
+                    <div class="input-group">
+                        <label>Daily Usage (Hours/Day)</label>
+                        <input type="number" id="dailyUsage" value="6">
+                    </div>
+                    <div class="input-group">
+                        <label>Investment Return (Years)</label>
+                        <input type="number" id="investReturn" value="2">
+                    </div>
+                    <div class="input-group">
+                        <label>Maintenance/Repair Cost (%)</label>
+                        <input type="number" id="repairPct" value="5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div class="card results-card">
+            <div class="section-title" style="color: white; border-bottom-color: rgba(255,255,255,0.2)">Final Quote</div>
+            
+            <div class="price-display" id="totalPrice">₪0.00</div>
+
+            <div class="breakdown">
+                <div class="breakdown-item">
+                    <span>Filament Cost:</span>
+                    <span id="breakMaterial">₪0.00</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Electricity Cost:</span>
+                    <span id="breakElec">₪0.00</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Labor Cost:</span>
+                    <span id="breakLabor">₪0.00</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Machine & Upkeep:</span>
+                    <span id="breakUpkeep">₪0.00</span>
+                </div>
+                
+                <div class="breakdown-total">
+                    <div class="breakdown-item">
+                        <span>Total Net Cost:</span>
+                        <span id="breakNet">₪0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Profit Margin:</span>
+                        <span id="breakProfit">₪0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-reset" onclick="resetForm()">Clear Form</button>
+        </div>
+    </div>
+
+    <footer>
+        Data source: Jerusalem Residential Rate (Jan 2026) | No VAT | Precision Pricing
+    </footer>
+</div>
+
+<script>
+    const inputIds = [
+        'filamentType', 'matCost', 'gramsUsed', 'printHours', 'printMinutes',
+        'laborMinutes', 'kwhRate', 'printerWatts', 'laborRate', 
+        'markup', 'printerCost', 'dailyUsage', 'investReturn', 'repairPct'
+    ];
+
+    function toggleAdvanced() {
+        const content = document.getElementById('advancedContent');
+        const icon = document.getElementById('toggleIcon');
+        content.classList.toggle('show');
+    }
+
+    function calculate() {
+        const vals = {};
+        inputIds.forEach(id => {
+            vals[id] = parseFloat(document.getElementById(id).value) || 0;
+        });
+
+        // Toggle custom material input
+        const filamentSelect = document.getElementById('filamentType');
+        const customDiv = document.getElementById('customMatDiv');
+        let spoolPrice = parseFloat(filamentSelect.value);
+        if (filamentSelect.value === "0") {
+            customDiv.style.display = 'block';
+            spoolPrice = vals.matCost;
+        } else {
+            customDiv.style.display = 'none';
+        }
+
+        // 1. Total Print Time (decimal hours)
+        const totalPrintHours = vals.printHours + (vals.printMinutes / 60);
+
+        // 2. Filament Cost
+        const filamentCost = (spoolPrice / 1000) * vals.gramsUsed;
+
+        // 3. Electricity Cost
+        const electricityCost = totalPrintHours * (vals.printerWatts / 1000) * vals.kwhRate;
+
+        // 4. Labor Cost (Minutes to Hours)
+        const laborCost = (vals.laborMinutes / 60) * vals.laborRate;
+
+        // 5. Machine & Upkeep (Prusa Formula)
+        const totalLifetimeHours = vals.investReturn * 365 * vals.dailyUsage;
+        const maintenanceTotal = vals.printerCost * (vals.repairPct / 100);
+        const upkeepHourlyRate = totalLifetimeHours > 0 ? (vals.printerCost + maintenanceTotal) / totalLifetimeHours : 0;
+        const upkeepCost = totalPrintHours * upkeepHourlyRate;
+
+        // 6. Totals
+        const productionCost = filamentCost + electricityCost + laborCost + upkeepCost;
+        const profit = productionCost * (vals.markup / 100);
+        const finalPrice = productionCost + profit;
+
+        // Update UI
+        document.getElementById('totalPrice').innerText = `₪${finalPrice.toFixed(2)}`;
+        document.getElementById('breakMaterial').innerText = `₪${filamentCost.toFixed(2)}`;
+        document.getElementById('breakElec').innerText = `₪${electricityCost.toFixed(2)}`;
+        document.getElementById('breakLabor').innerText = `₪${laborCost.toFixed(2)}`;
+        document.getElementById('breakUpkeep').innerText = `₪${upkeepCost.toFixed(2)}`;
+        document.getElementById('breakNet').innerText = `₪${productionCost.toFixed(2)}`;
+        document.getElementById('breakProfit').innerText = `₪${profit.toFixed(2)}`;
+    }
+
+    function resetForm() {
+        ['gramsUsed', 'printHours', 'printMinutes', 'laborMinutes'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        calculate();
+    }
+
+    inputIds.forEach(id => {
+        document.getElementById(id).addEventListener('input', calculate);
+    });
+
+    calculate();
+</script>
+
+</body>
+</html>
